@@ -1,6 +1,14 @@
 const config = require('./server/config.js');
 const express = require('express');
+const path = require('path');
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'client/static/css')));
+app.use(express.static(path.join(__dirname, 'client/static/js')));
+
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, 'client/index.html'));
+});
 
 app.listen(config.port, function(){ 
     console.log(`bt-le-indoor-localisation.js server started on port ${config.port}`);
