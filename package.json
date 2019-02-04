@@ -1,0 +1,26 @@
+{
+  "name": "bt-le-indoor-localisation",
+  "version": "0.1.0",
+  "description": "Indoor localiastion using JS and Bluetooth LE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PBBlachuu/bt-le-indoor-localisation.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PBBlachuu/bt-le-indoor-localisation.js/issues"
+  },
+  "homepage": "https://github.com/PBBlachuu/bt-le-indoor-localisation.js#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "three": "^0.101.1"
+  },
+  "optionalDependencies": {
+    "noble": "^1.9.1"
+  }
+}
