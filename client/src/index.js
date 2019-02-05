@@ -1,2 +1,4 @@
-const app = require('./app');
-app();
+const App = require('./app')
+const app = new App()
+app.init()
+app.run()
