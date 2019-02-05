@@ -13,7 +13,7 @@ const App = class App {
 
         this.group = new THREE.Group()
 
-        this.room = new Room(1, 1, 1)
+        this.room = new Room(3, 1, 2)
         this.room.setTHREE(THREE)
         this.group.add(this.room.getDisplayObject())
 
