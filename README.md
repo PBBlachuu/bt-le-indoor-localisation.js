@@ -15,7 +15,7 @@ Then run Node.js/Express:
 
     node index.js
 
-Go to browswer:
+Go to browser:
 
     http://localhost:3002
 
