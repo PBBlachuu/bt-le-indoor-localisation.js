@@ -4,25 +4,45 @@ const mouseHandler = require('./mouse')
 var scene = new THREE.Scene()
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000)
 
-var renderer = new THREE.WebGLRenderer()
+var renderer = new THREE.WebGLRenderer({antialias: true})
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-var geometry = new THREE.BoxGeometry(1, 1, 1)
-var material = new THREE.MeshBasicMaterial({color: 0x00ff00})
-var cube = new THREE.Mesh(geometry, material)
+let material = new THREE.LineBasicMaterial({color: 0xffffff});
 
-scene.background = new THREE.Color(0xf0f0f0)
-scene.add(cube)
+var geometry = new THREE.BoxGeometry(2, 2, 2)
+var wireframe = new THREE.EdgesGeometry( geometry );
+var line = new THREE.LineSegments( wireframe, material);
+
+var geometry1 = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+var wireframe1 = new THREE.EdgesGeometry( geometry1 );
+var line1 = new THREE.LineSegments( wireframe1, material);
+line1.position.set(0, 0, 0)
+
+var group = new THREE.Group();
+group.add( line1 );
+group.add( line );
+
+scene.add(group)
+
+scene.background = new THREE.Color(0x272822)
+
 
 camera.position.z = 5
 
 var animate = () => {
     requestAnimationFrame(animate)
-    //cube.rotation.x += 0.01;
-    //cube.rotation.y += 0.01;
+    //line.rotation.y += 0.01;
+    //group.rotation.x += 0.01;
 
-    cube.rotation.y += (mouseHandler.getTargetLocation() * 0.5 - cube.rotation.y ) * 0.1
+    group.rotation.y += (mouseHandler.getTargetLocationX() * 0.5 - group.rotation.y ) * 0.1
+    group.rotation.x += (mouseHandler.getTargetLocationY() * 0.5 - group.rotation.x ) * 0.1
+
+    camera.position.z += mouseHandler.getMouseDeltaX() * 0.1
+    //let cameraDeltaX = 
+    //camera.lookAt(0, 0, 0)
+
+    //console.log()
     
     renderer.render(scene, camera)
 }

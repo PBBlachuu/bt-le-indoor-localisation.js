@@ -1,8 +1,9 @@
-let targetRotation = 0
-let targetRotationOnMouseDown = 0
-let mouseX = 0
-let mouseXOnMouseDown = 0
-let windowHalfX = window.innerWidth / 2
+let targetRotationX = 0, targetRotationY = 0
+let targetRotationXOnMouseDown = 0, targetRotationYOnMouseDown = 0
+let mouseX = 0, mouseY = 0
+let mouseXOnMouseDown = 0, mouseYOnMouseDown = 0
+let windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2
+let mouseDeltaX = 0
 let mouseHandler = {}
 
 const onDocumentMouseDown = (e) => {
@@ -12,12 +13,16 @@ const onDocumentMouseDown = (e) => {
     document.addEventListener('mouseout', onDocumentMouseOut, false)
     
     mouseXOnMouseDown = e.clientX - windowHalfX
-    targetRotationOnMouseDown = targetRotation
+    mouseYOnMouseDown = e.clientY - windowHalfY
+    targetRotationXOnMouseDown = targetRotationX
+    targetRotationYOnMouseDown = targetRotationY
 }
 
 const onDocumentMouseMove = (e) => {
     mouseX = e.clientX - windowHalfX
-    targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.01
+    mouseY = e.clientY - windowHalfY
+    targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.01
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.01
 }
 
 const onDocumentMouseUp = () => {
@@ -32,10 +37,23 @@ const onDocumentMouseOut = () => {
     document.removeEventListener('mouseout', onDocumentMouseOut, false)
 }
 
-document.addEventListener('mousedown', onDocumentMouseDown, false)
+const onDocumentWheel = (e) => {
+    mouseDeltaX = e.deltaX
+}
 
-mouseHandler.getTargetLocation = () => {
-    return targetRotation
+document.addEventListener('mousedown', onDocumentMouseDown, false)
+document.addEventListener('wheel', onDocumentWheel, false)
+
+mouseHandler.getTargetLocationX = () => {
+    return targetRotationX
+}
+
+mouseHandler.getTargetLocationY = () => {
+    return targetRotationY
+}
+
+mouseHandler.getMouseDeltaX = () => {
+    return mouseDeltaX
 }
 
 module.exports = mouseHandler
