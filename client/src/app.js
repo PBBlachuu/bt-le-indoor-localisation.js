@@ -40,6 +40,12 @@ const App = class App {
             this.group.add(range)
         })
 
+        // Create socket
+        this.socket = io()
+        this.socket.on('bt', data => {
+            this.handleSocketData(data)
+        })
+
         this.loop = () => {
             requestAnimationFrame(this.loop)
             this.update()
@@ -73,12 +79,11 @@ const App = class App {
         this.loop()
     }
 
-    // step(){
-    //     this.ranges[0].scale.x += 0.2
-    //     this.ranges[0].scale.y += 0.2
-    //     this.ranges[0].scale.z += 0.2
-    // }
-
+    handleSocketData(data){
+        //this.beacons[0].position.x = data.x
+        //this.ranges[0].position.x = data.x
+        //console.log(data);
+    }
 }
 
 module.exports = App
