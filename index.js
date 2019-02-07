@@ -25,6 +25,8 @@ app.get('/', function(req, res){
 const time = setInterval(function() {
     const distances = bluetooth.getBeaconDistances(data.beacons);
     const beacons = data.beacons.map((element, index) => Object.assign({}, element, {distance: distances[index]}));
-    io.emit('bt', beacons);
+    const user = trilateration.getPosition(beacons);
+    //console.log(user);
+    io.emit('bt', {beacons: beacons, user: user});
 }, 1000);
 

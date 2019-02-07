@@ -32,13 +32,20 @@ const App = class App {
 
         // Create beacon range objects
         config.beacons.forEach((element) => {
-            const material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0.4} )
+            const material = new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0.2} )
             const geometry = new THREE.SphereGeometry(2, 30, 30)
             const range = new THREE.Mesh(geometry, material)
             range.position.set(element.x - config.func.getRoomXHalf(), element.y - config.func.getRoomYHalf(), element.z - config.func.getRoomZHalf())
             this.ranges.push(range)
             this.group.add(range)
         })
+
+        // Create user objects
+        const material = new THREE.MeshBasicMaterial( {color: 0x0000ff} )
+        const geometry = new THREE.SphereGeometry(0.05, 15, 15)
+        this.user = new THREE.Mesh(geometry, material)
+        this.user.visible = false
+        this.group.add(this.user)
 
         // Create socket
         this.socket = io()
@@ -63,16 +70,6 @@ const App = class App {
         this.group.rotation.y += (mouseHandler.getTargetLocationX() * 0.5 - this.group.rotation.y ) * 0.1
         this.group.rotation.x += (mouseHandler.getTargetLocationY() * 0.5 - this.group.rotation.x ) * 0.1
         this.camera.position.z += mouseHandler.getMouseDeltaX() * 0.05
-
-        // this.beacons[0].position.set()
-        // console.log(this.beacons[0].position.x)
-        //this.beacons[0].position.x += 0.01
-        //this.ranges[0].position.x += 0.01
-
-        //console.log(this.ranges[0].scale)
-        //this.ranges[0].scale.x += 0.01
-        //this.ranges[0].scale.y += 0.01
-        //this.ranges[0].scale.z += 0.01
     }
 
     run(){
@@ -80,11 +77,19 @@ const App = class App {
     }
 
     handleSocketData(data){
-        data.map((element, index) => {
-            this.ranges[index].scale.x = element.distance;
-            this.ranges[index].scale.y = element.distance;
-            this.ranges[index].scale.z = element.distance;
-        });
+        data.beacons.map((element, index) => {
+            this.ranges[index].scale.x = element.distance
+            this.ranges[index].scale.y = element.distance
+            this.ranges[index].scale.z = element.distance
+        })
+        if (data.user) {
+            this.user.visible = true
+            this.user.position.x = data.user.x - config.func.getRoomXHalf()
+            this.user.position.y = data.user.y - config.func.getRoomYHalf()
+            this.user.position.z = data.user.z - config.func.getRoomZHalf()
+        } else {
+            this.user.visible = false
+        }
     }
 }
 
