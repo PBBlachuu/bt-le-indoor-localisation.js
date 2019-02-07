@@ -4,12 +4,18 @@ let lastScanned = 0;
 let distances = [0, 0, 0];
 
 const getBeaconDistances = function(beacons){
-    if (config.env === 'development-mac') return _fakeBeaconsRand(beacons);
-    else return _realBeacons(beacons);
+    src = process.env.SRC || 'one'
+    if (src === 'rand') return _fakeBeaconsRand(beacons);
+    if (src === 'one') return _fakeBeaconsOne(beacons);
+    if (src === 'real') return _realBeacons(beacons);
 }
 
 const _fakeBeaconsRand = function(beacons){
     return beacons.map(() => (Math.random(50, 100) * (1)).toFixed(4));
+}
+
+const _fakeBeaconsOne = function(beacons){
+    return beacons.map(() => 1)
 }
 
 const _realBeacons = function(beacons){  
@@ -25,7 +31,7 @@ const _calculateDistance = function(n, rssi){
 }
 
 const scan = function(beacons){
-    if (config.env !== 'development-mac') {
+    if (process.env.SRC === 'real') {
         const noble = require('noble');
 
         noble.on('stateChange', scan);

@@ -18,7 +18,6 @@ app.use(express.static(path.join(__dirname, 'client/static/js')));
 server.listen(config.port);
 console.log(`bt-le-indoor-localisation.js server started on port ${config.port}`);
 bluetooth.scan(data.beacons);
-console.log(`BT starts scanning...`);
 
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, 'client/index.html'));
@@ -30,5 +29,5 @@ const time = setInterval(function() {
     const user = trilateration.getPosition(beacons);
     //console.log(user);
     io.emit('bt', {beacons: beacons, user: user});
-}, 1000);
+}, 2000);
 

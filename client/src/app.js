@@ -81,6 +81,7 @@ const App = class App {
             this.ranges[index].scale.x = element.distance
             this.ranges[index].scale.y = element.distance
             this.ranges[index].scale.z = element.distance
+            console.log(`${element.name} distance: ${element.distance}`)
         })
         if (data.user) {
             this.user.visible = true
@@ -90,6 +91,7 @@ const App = class App {
         } else {
             this.user.visible = false
         }
+        console.log('')
     }
 }
 
