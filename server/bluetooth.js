@@ -1,6 +1,7 @@
 const config = require('./config');
 
 let lastScanned = 0;
+let distances = [0, 0, 0];
 
 const getBeaconDistances = function(beacons){
     if (config.env === 'development-mac') return _fakeBeaconsRand(beacons);
@@ -12,7 +13,15 @@ const _fakeBeaconsRand = function(beacons){
 }
 
 const _realBeacons = function(beacons){  
-    return beacons.map(() => (Math.random(50, 100) * (1)).toFixed(4));
+    return distances;
+}
+
+const _calculateDistance = function(n, rssi){
+    if (rssi < 0) {
+        // Calculate the distance
+        let distance = Math.pow(10, (-43 - rssi) / (10 * 2.5));
+        distances[n] = distance;
+    }
 }
 
 const scan = function(beacons){
@@ -34,21 +43,22 @@ const scan = function(beacons){
         noble.on('discover', discoverPeripherals);
 
         function discoverPeripherals(peripheral) {
-            let peripheralName = peripheral.advertisement.localName;
-
-            if ((peripheralName == beacons[0].name) || (peripheralName == beacons[1].name) || (peripheralName == beacons[2].name)) {
-                console.log(`Found my device: ${peripheralName}`);
+            if (lastScanned == 3) lastScanned = 0;
+            if ((peripheral.advertisement.localName == beacons[lastScanned].name)) {
+                console.log(`Found my device: ${peripheral.advertisement.localName}`);
                 noble.stopScanning();               
                 
                 //save peripheral  to a variable
                 myPeripheral = peripheral;
                 myPeripheral.connect((err) => {
                     myPeripheral.updateRssi((error, rssi) => {
-                        if(rssi < 0) console.log(`RSSI ${peripheralName}: ${rssi}`);
+                        if(rssi < 0) console.log(`RSSI ${peripheral.advertisement.localName}: ${rssi}`);
+                        _calculateDistance(lastScanned, rssi);
+                        lastScanned++;
                         myPeripheral.disconnect((err) => {
-                            setTimeout(() =>{
+                            setTimeout(() => {
                                 noble.startScanning();
-                            }, 500);
+                            }, 100);
                         });
                     });
                 });

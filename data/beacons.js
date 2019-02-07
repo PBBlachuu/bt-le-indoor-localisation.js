@@ -15,7 +15,7 @@ const beacons = [
         x: 1,
         y: 1,
         z: 0,
-        name: 'iNode-43E296'
+        name: 'iNode-43E2A8'
     }
 ];
 
