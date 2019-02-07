@@ -3,19 +3,19 @@ const beacons = [
         x: 0,
         y: 0,
         z: 0,
-        name: 'iBeacon 5000'
+        name: 'iNode-43DFD6'
     },
     {
         x: 2,
         y: 0,
         z: 0,
-        name: 'iBeacon 1000'
+        name: 'iNode-43E2A5'
     },
     {
         x: 1,
         y: 1,
         z: 0,
-        name: 'iBeacon 1000'
+        name: 'iNode-43E296'
     }
 ];
 

@@ -17,6 +17,8 @@ app.use(express.static(path.join(__dirname, 'client/static/js')));
 
 server.listen(config.port);
 console.log(`bt-le-indoor-localisation.js server started on port ${config.port}`);
+bluetooth.scan(data.beacons);
+console.log(`BT starts scanning...`);
 
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, 'client/index.html'));
