@@ -80,9 +80,11 @@ const App = class App {
     }
 
     handleSocketData(data){
-        //this.beacons[0].position.x = data.x
-        //this.ranges[0].position.x = data.x
-        //console.log(data);
+        data.map((element, index) => {
+            this.ranges[index].scale.x = element.distance;
+            this.ranges[index].scale.y = element.distance;
+            this.ranges[index].scale.z = element.distance;
+        });
     }
 }
 
